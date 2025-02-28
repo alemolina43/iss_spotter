@@ -1,6 +1,4 @@
-const { error } = require('console');
 const needle = require('needle');
-const { callbackify } = require('util');
 /**
  * Makes a single API request to retrieve the user's IP address.
  * Input:
@@ -13,12 +11,10 @@ const fetchMyIP = function(callback) {
   const url = 'https://api.ipify.org?format=json';
   
   needle.get(url, (error, response, body) => {
-    //console.log(body);
-    //console.log(error);
     if (error) return callback(error, null);
    
     if (response.statusCode !== 200) {
-      callback(Error(`Status Code ${response.statusCode} when fetching IP: ${body}`), null);
+      callback(Error(`Status Code ${response.statusCode} when fetching your IP`), null);
       return;
     }
 
