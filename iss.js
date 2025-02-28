@@ -33,17 +33,15 @@ const fetchCoordsByIP = function(ip, callback) {
    
     // parse the returned body so we can check its information
     //const parsedBody = JSON.parse(body);
-    if (!body.success) {
+    if (!body.success || !body.latitude || !body.longitude) {
       callback(Error(`The transaction was not succesful`), null);
       return;
     }
     
-    if (body.latitude && body.longitude) {
-      const latitude = body.latitude;
-      const longitude = body.longitude;
+    const latitude = body.latitude;
+    const longitude = body.longitude;
+    callback(null, {latitude, longitude});
 
-      callback(null, {latitude, longitude});
-    }
   });
 };
 
@@ -67,6 +65,7 @@ const fetchISSFlyOverTimes = function(coords, callback) {
       return;
     }
     
+    //const parsedBody = JSON.parse(body);
     callback(null, body.response);
   });
 };
