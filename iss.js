@@ -22,4 +22,30 @@ const fetchMyIP = function(callback) {
   });
 };
 
-module.exports = { fetchMyIP };
+
+const fetchCoordsByIP = function(ip, callback) {
+  const url = 'http://ipwho.is/';
+  //'http://ipwho.is/192.80.166.158';
+  
+  needle.get(url + ip, (error, response, body) => {
+    console.log(error);
+    //invalid domain, user offline, etc.
+    if (error) return callback(error, null);
+   
+    // parse the returned body so we can check its information
+    //const parsedBody = JSON.parse(body);
+    if (!body.success) {
+      callback(Error(`The transaction was not succesful`), null);
+      return;
+    }
+    
+    const latitude = body.latitude;
+    const longitude = body.longitude;
+    callback(null, {latitude, longitude});
+  });
+};
+
+module.exports = {
+  fetchMyIP,
+  fetchCoordsByIP,
+};
